@@ -52,6 +52,7 @@ function dice() {
 }
 
 /**
+ * checks if all the dice are equal to each other
  * 
  * @param {Number} d1 the value of the first dice
  * @param {Number} d1 the value of the first dice
@@ -61,7 +62,7 @@ function dice() {
  * @param {Number} d5 the value of the fifth dice
  */
 function equalD(d1, d2, d3, d4, d5) {
-	return !(d1 === d2 &&
+	return (d1 === d2 &&
 		d1 === d3 &&
 		d1 === d4 &&
 		d1 === d5);
@@ -85,7 +86,7 @@ function simulation() {
 		dice4 = dice();
 		dice5 = dice();
 
-	} while (equalD(dice1, dice2, dice3, dice4, dice5));
+	} while (!equalD(dice1, dice2, dice3, dice4, dice5));
 
 	return { throws: numberOfSimulations, dic: dice1 };
 }
@@ -96,8 +97,6 @@ function simulation() {
  * the thread too much :/
  * 
  * @param {Number} amount
- * @param {Element} history
- * @param {Element} averages
  */
 function createSimulations(amount) {
 
