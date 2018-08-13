@@ -30,12 +30,14 @@ const global = {
  */
 function updateContent(throws, dice) {
 	if (throws !== 0) {
-		let history = document.getElementsByClassName("his")[0];
-		let average = document.getElementsByClassName("aver")[0];
+		const history = document.getElementsByClassName("his")[0];
+		const average = document.getElementsByClassName("aver")[0];
+		const aver = global.throws === 0 ? 0 : Math.trunc(10000000 * (global.yahtzees / global.throws)) / 10000000;
+		const expected = Math.trunc(10000000 * (1 / 1296)) / 10000000;
 		history.innerHTML += `<p>${global.yahtzees}. total rolls: ${throws}, value of last dice: ${dice}</p>`;
 		average.innerHTML = (`<p>The total average at the moment is: ${global.yahtzees}/${global.throws} =` +
-			` ${global.throws === 0 ? 0 : Math.trunc(10000000 * (global.yahtzees / global.throws)) / 10000000}</p>`);
-		average.innerHTML += `<p>The expected average is: 1/1296 = ${Math.trunc(10000000 * (1 / 1296)) / 10000000}</p>`;
+			` ${Math.trunc(aver * 100000)/1000}% = ${aver}</p>`);
+		average.innerHTML += `<p>The expected average is: 1/1296 = ${Math.trunc(expected * 100000)/1000}% = ${expected}</p>`;
 	}
 }
 
