@@ -28,17 +28,33 @@ const global = {
  * @param {Number} throws the amount of throws made in the last simulation.
  * @param {Number} dice the last dice value in the last simulation.
  */
-function updateContent(throws, dice) {
+function updateHist(throws, dice) {
 	if (throws !== 0) {
 		const history = document.getElementsByClassName("his")[0];
-		const average = document.getElementsByClassName("aver")[0];
-		const aver = global.throws === 0 ? 0 : Math.trunc(10000000 * (global.yahtzees / global.throws)) / 10000000;
-		const expected = Math.trunc(10000000 * (1 / 1296)) / 10000000;
-		history.innerHTML += `<p>${global.yahtzees}. total rolls: ${throws}, value of last dice: ${dice}</p>`;
-		average.innerHTML = (`<p>The total average at the moment is: ${global.yahtzees}/${global.throws} =` +
-			` ${Math.trunc(aver * 100000)/1000}% = ${aver}</p>`);
-		average.innerHTML += `<p>The expected average is: 1/1296 = ${Math.trunc(expected * 100000)/1000}% = ${expected}</p>`;
+		history.innerHTML += `<p>${global.yahtzees}. total rolls: ${throws},`+
+			` value of last dice: ${dice}</p>`;
 	}
+}
+
+/**
+ * Updates the div with the average values and the information on it.
+ */
+function updateAver() {
+	const average = document.getElementsByClassName("aver")[0];
+	const expected = Math.trunc(10000000 * (1 / 1296)) / 10000000;
+
+	let aver;
+	if (global.throws === 0) {
+		aver = 0;
+	} else {
+		aver = Math.trunc(10000000 * (global.yahtzees / global.throws)) / 10000000;
+	}
+
+	average.innerHTML = "<p>The total average at the moment is:" +
+		` ${global.yahtzees}/${global.throws} = ${Math.trunc(aver * 100000)/1000}% = ${aver}</p>`;
+
+	average.innerHTML += "<p>The expected average is: 1/1296 = " +
+		`${Math.trunc(expected * 100000)/1000}% = ${expected}</p>`;
 }
 
 /**
@@ -107,7 +123,8 @@ function createSimulations(amount) {
 			global.yahtzees++;
 			global.results.push(throws);
 
-			updateContent(throws, dic);
+			updateHist(throws, dic);
+			updateAver();
 		}, 1);
 	}
 }
